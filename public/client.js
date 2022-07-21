@@ -553,6 +553,7 @@ const linea = `<svg id="svg1">
 		/>
 	</line>
 </svg>`
+let numberMemory = 100
 //*******orbit control******
 const controls = new OrbitControls(camera, canvas)
 controls.update()
@@ -561,15 +562,34 @@ controls.update()
 function moveAndLookAt(camera, dstpos, dstlookat, options, number) {
 	console.log(number)
 	options || (options = { duration: 300 })
+	// if (numberMemory === 100) {
+	// 	numberMemory = number
+	// }
 
 	if (pointChecked) {
-		point[number].innerHTML = ''
+		const svg = document.querySelector('.point svg')
+		svg.remove()
 		const text = document.querySelectorAll('.text')
-		text[number].style.opacity = '0'
+		text[0].style.opacity = '0'
+		text[1].style.opacity = '0'
+		text[2].style.opacity = '0'
+		text[3].style.opacity = '0'
+		text[4].style.opacity = '0'
 		controls.enabled = true
 	} else {
+		const svg = document.querySelector('.point svg')
+		if (svg) {
+			svg.remove()
+		}
+		const text = document.querySelectorAll('.text')
 		controls.enabled = false
+		text[0].style.opacity = '0'
+		text[1].style.opacity = '0'
+		text[2].style.opacity = '0'
+		text[3].style.opacity = '0'
+		text[4].style.opacity = '0'
 	}
+
 	var origpos = new THREE.Vector3().copy(camera.position) // original position
 	var origrot = new THREE.Euler().copy(camera.rotation) // original rotation
 
@@ -603,7 +623,15 @@ function moveAndLookAt(camera, dstpos, dstlookat, options, number) {
 					const text = document.querySelectorAll('.text')
 					text[number].style.opacity = '1'
 				}, 2000)
+			} else {
+				pointChecked = false
 			}
+			controls.target = new THREE.Vector3(
+				points[0].position.x,
+				points[0].position.y,
+				points[0].position.z
+			)
+			controls.update()
 		})
 		.start()
 
@@ -639,11 +667,6 @@ function pn0() {
 			{ duration: 1500 },
 			0
 		)
-
-		// 		camera.getWorldDirection(lookDirection) //soluciona saltos del orbit control
-		// 		controls.target
-		// 			.copy(camera.position)
-		// 			.add(lookDirection.multiplyScalar(10))
 
 		// 		TWEEN.remove(m)
 	} else {
@@ -693,9 +716,9 @@ function pn2() {
 			camera,
 			new THREE.Vector3(points[2].position.x, points[2].position.y, 20),
 			new THREE.Vector3(
-				points[0].position.x,
-				points[0].position.y,
-				points[0].position.z
+				points[2].position.x + 10,
+				points[2].position.y,
+				points[2].position.z
 			),
 			{ duration: 1500 },
 			2
@@ -715,113 +738,57 @@ function pn2() {
 	}
 }
 function pn3() {
-	if (point3Checked === false) {
-		console.log('point3')
-		var m = new TWEEN.Tween(camera.position)
-			.to({ x: points[3].position.x, y: -2, z: -25 }, 2000)
-			.easing(TWEEN.Easing.Linear.None)
-			.start()
-			.onUpdate(() => {
-				controls.enabled = false
-				camera.lookAt(
-					points[3].position.x - 5,
-					points[3].position.y,
-					points[3].position.z
-				)
-			})
-			.onComplete(() => {
-				camera.getWorldDirection(lookDirection) //soluciona saltos del orbit control
-				controls.target
-					.copy(camera.position)
-					.add(lookDirection.multiplyScalar(10))
-				console.log(controls.target) //despues de una animacion tween
-				TWEEN.remove(m)
-
-				point[3].innerHTML += `<svg id="svg1">
-			<line
-				id="line1"
-				x1='2.5'
-				y1="2.5"
-			
-				y2="2.5"
-				fill="none"
-				stroke="#9a999d"
-				stroke-linecap="round"
-				stroke-miterlimit="10"
-				stroke-width="5"
-			>
-				<animate
-					attributeName="x2"
-					attributeType="XML"
-					from="0"
-					to="240"
-					dur="2s"
-					repeatCount="once"
-					fill='freeze'
-				/>
-			</line>
-		</svg>`
-				point3Checked = true
-				setTimeout(() => {
-					const text = document.querySelectorAll('.text')
-					text[3].style.opacity = '1'
-				}, 2000)
-			})
+	if (pointChecked === false) {
+		moveAndLookAt(
+			camera,
+			new THREE.Vector3(points[3].position.x, -2, -2),
+			new THREE.Vector3(
+				points[0].position.x,
+				points[0].position.y,
+				points[0].position.z
+			),
+			{ duration: 1500 },
+			3
+		)
+	} else {
+		moveAndLookAt(
+			camera,
+			new THREE.Vector3(-15.75, 3.44, 34.4),
+			new THREE.Vector3(
+				points[0].position.x,
+				points[0].position.y,
+				points[0].position.z
+			),
+			{ duration: 1500 },
+			3
+		)
 	}
 }
 function pn4() {
-	if (point4Checked === false) {
-		console.log('point4')
-		var m = new TWEEN.Tween(camera.position)
-			.to({ x: points[4].position.x, y: points[4].position.y, z: 22 }, 2000)
-			.easing(TWEEN.Easing.Linear.None)
-			.start()
-			.onUpdate(() => {
-				controls.enabled = false
-				camera.lookAt(
-					points[4].position.x + 5,
-					points[4].position.y,
-					points[4].position.z + 5
-				)
-			})
-			.onComplete(() => {
-				camera.getWorldDirection(lookDirection) //soluciona saltos del orbit control
-				controls.target
-					.copy(camera.position)
-					.add(lookDirection.multiplyScalar(10))
-				console.log(controls.target) //despues de una animacion tween
-				TWEEN.remove(m)
-
-				point[4].innerHTML += `<svg id="svg1">
-			<line
-				id="line1"
-				x1='2.5'
-				y1="2.5"
-			
-				y2="2.5"
-				fill="none"
-				stroke="#9a999d"
-				stroke-linecap="round"
-				stroke-miterlimit="10"
-				stroke-width="5"
-			>
-				<animate
-					attributeName="x2"
-					attributeType="XML"
-					from="0"
-					to="240"
-					dur="2s"
-					repeatCount="once"
-					fill='freeze'
-				/>
-			</line>
-		</svg>`
-				point3Checked = true
-				setTimeout(() => {
-					const text = document.querySelectorAll('.text')
-					text[4].style.opacity = '1'
-				}, 2000)
-			})
+	if (pointChecked === false) {
+		moveAndLookAt(
+			camera,
+			new THREE.Vector3(points[4].position.x + 20, points[4].position.y, -10),
+			new THREE.Vector3(
+				points[4].position.x - 15,
+				points[4].position.y,
+				points[4].position.z
+			),
+			{ duration: 1500 },
+			4
+		)
+	} else {
+		moveAndLookAt(
+			camera,
+			new THREE.Vector3(-15.75, 3.44, 34.4),
+			new THREE.Vector3(
+				points[0].position.x,
+				points[0].position.y,
+				points[0].position.z
+			),
+			{ duration: 1500 },
+			4
+		)
 	}
 }
 //*desahabilitar botones*
