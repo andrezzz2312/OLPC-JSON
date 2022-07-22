@@ -741,11 +741,11 @@ function pn3() {
 	if (pointChecked === false) {
 		moveAndLookAt(
 			camera,
-			new THREE.Vector3(points[3].position.x, -2, -2),
+			new THREE.Vector3(points[3].position.x - 10, 2, -30),
 			new THREE.Vector3(
-				points[0].position.x,
-				points[0].position.y,
-				points[0].position.z
+				points[1].position.x + 5,
+				points[1].position.y + 2,
+				points[1].position.z
 			),
 			{ duration: 1500 },
 			3
