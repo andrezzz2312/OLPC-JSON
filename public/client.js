@@ -560,116 +560,106 @@ controls.update()
 //controls.enableDamping = true
 
 function moveAndLookAt(camera, dstpos, dstlookat, options, number) {
-	console.log(number)
 	options || (options = { duration: 300 })
-	// if (numberMemory === 100) {
-	// 	numberMemory = number
-	// }
-
-	if (pointChecked) {
-		const svg = document.querySelector('.point svg')
+	console.log(number)
+	const svg = document.querySelector('.point svg')
+	if (svg) {
 		svg.remove()
-		const text = document.querySelectorAll('.text')
-		text[0].style.opacity = '0'
-		text[1].style.opacity = '0'
-		text[2].style.opacity = '0'
-		text[3].style.opacity = '0'
-		text[4].style.opacity = '0'
-		controls.enabled = true
-	} else {
-		const svg = document.querySelector('.point svg')
-		if (svg) {
-			svg.remove()
-		}
-		const text = document.querySelectorAll('.text')
-		controls.enabled = false
-		text[0].style.opacity = '0'
-		text[1].style.opacity = '0'
-		text[2].style.opacity = '0'
-		text[3].style.opacity = '0'
-		text[4].style.opacity = '0'
 	}
 
-	var origpos = new THREE.Vector3().copy(camera.position) // original position
-	var origrot = new THREE.Euler().copy(camera.rotation) // original rotation
+	controls.enabled = false
 
-	camera.position.set(dstpos.x, dstpos.y, dstpos.z)
-	camera.lookAt(dstlookat)
-	var dstrot = new THREE.Euler().copy(camera.rotation)
+	if (numberMemory !== number) {
+		var origpos = new THREE.Vector3().copy(camera.position) // original position
+		var origrot = new THREE.Euler().copy(camera.rotation) // original rotation
 
-	// reset original position and rotation
-	camera.position.set(origpos.x, origpos.y, origpos.z)
-	camera.rotation.set(origrot.x, origrot.y, origrot.z)
+		camera.position.set(dstpos.x, dstpos.y, dstpos.z)
+		camera.lookAt(dstlookat)
+		var dstrot = new THREE.Euler().copy(camera.rotation)
 
-	//
-	// Tweening
-	//
+		// reset original position and rotation
+		camera.position.set(origpos.x, origpos.y, origpos.z)
+		camera.rotation.set(origrot.x, origrot.y, origrot.z)
 
-	// position
-	new TWEEN.Tween(camera.position)
-		.to(
-			{
-				x: dstpos.x,
-				y: dstpos.y,
-				z: dstpos.z,
-			},
-			options.duration
-		)
-		.onComplete(() => {
-			if (!pointChecked) {
-				pointChecked = true
-				point[number].innerHTML += linea
+		//
+		// Tweening
+		//
+
+		// position
+		new TWEEN.Tween(camera.position)
+			.to(
+				{
+					x: dstpos.x,
+					y: dstpos.y,
+					z: dstpos.z,
+				},
+				options.duration
+			)
+			.onUpdate(() => {
+				const text = document.querySelectorAll('.text')
+				text[0].style.opacity = '0'
+				text[1].style.opacity = '0'
+				text[2].style.opacity = '0'
+				text[3].style.opacity = '0'
+				text[4].style.opacity = '0'
+			})
+			.onComplete(() => {
+				if (number !== undefined) {
+					numberMemory = number
+					point[number].innerHTML += linea
+				} else {
+					numberMemory = 100
+					controls.enabled = true
+				}
 				setTimeout(() => {
 					const text = document.querySelectorAll('.text')
-					text[number].style.opacity = '1'
+					if (number !== undefined) {
+						text[number].style.opacity = '1'
+					}
 				}, 2000)
-			} else {
-				pointChecked = false
-			}
-			controls.target = new THREE.Vector3(
-				points[0].position.x,
-				points[0].position.y,
-				points[0].position.z
-			)
-			controls.update()
-		})
-		.start()
 
-	// rotation (using slerp)
-	;(function () {
-		var qa = (qa = new THREE.Quaternion().copy(camera.quaternion)) // src quaternion
-		var qb = new THREE.Quaternion().setFromEuler(dstrot) // dst quaternion
-		var qm = new THREE.Quaternion()
-		camera.quaternion.copy(qm)
-
-		var o = { t: 0 }
-		new TWEEN.Tween(o)
-			.to({ t: 1 }, options.duration)
-			.onUpdate(function () {
-				qm.slerpQuaternions(qa, qb, o.t)
-				camera.quaternion.set(qm.x, qm.y, qm.z, qm.w)
+				controls.target = new THREE.Vector3(
+					points[0].position.x,
+					points[0].position.y,
+					points[0].position.z
+				)
+				controls.update()
 			})
 			.start()
-	}.call(this))
+
+		// rotation (using slerp)
+		;(function () {
+			var qa = (qa = new THREE.Quaternion().copy(camera.quaternion)) // src quaternion
+			var qb = new THREE.Quaternion().setFromEuler(dstrot) // dst quaternion
+			var qm = new THREE.Quaternion()
+			camera.quaternion.copy(qm)
+
+			var o = { t: 0 }
+			new TWEEN.Tween(o)
+				.to({ t: 1 }, options.duration)
+				.onUpdate(function () {
+					qm.slerpQuaternions(qa, qb, o.t)
+					camera.quaternion.set(qm.x, qm.y, qm.z, qm.w)
+				})
+				.start()
+		}.call(this))
+	}
 }
 
 ///********animaciones TWEEN*******
 function pn0() {
-	if (pointChecked === false) {
-		moveAndLookAt(
-			camera,
-			new THREE.Vector3(points[0].position.x, points[0].position.y, 18),
-			new THREE.Vector3(
-				points[0].position.x + 10,
-				points[0].position.y,
-				points[0].position.z
-			),
-			{ duration: 1500 },
-			0
-		)
-
-		// 		TWEEN.remove(m)
-	} else {
+	moveAndLookAt(
+		camera,
+		new THREE.Vector3(points[0].position.x, points[0].position.y, 18),
+		new THREE.Vector3(
+			points[0].position.x + 10,
+			points[0].position.y,
+			points[0].position.z
+		),
+		{ duration: 1500 },
+		0
+	)
+	if (numberMemory === 0) {
 		moveAndLookAt(
 			camera,
 			new THREE.Vector3(-15.75, 3.44, 34.4),
@@ -678,25 +668,23 @@ function pn0() {
 				points[0].position.y,
 				points[0].position.z
 			),
-			{ duration: 1500 },
-			0
+			{ duration: 1500 }
 		)
 	}
 }
 function pn1() {
-	if (pointChecked === false) {
-		moveAndLookAt(
-			camera,
-			new THREE.Vector3(points[1].position.x, 8, 18),
-			new THREE.Vector3(
-				points[1].position.x + 10,
-				points[1].position.y,
-				points[1].position.z
-			),
-			{ duration: 1500 },
-			1
-		)
-	} else {
+	moveAndLookAt(
+		camera,
+		new THREE.Vector3(points[1].position.x, 8, 18),
+		new THREE.Vector3(
+			points[1].position.x + 10,
+			points[1].position.y,
+			points[1].position.z
+		),
+		{ duration: 1500 },
+		1
+	)
+	if (numberMemory === 1) {
 		moveAndLookAt(
 			camera,
 			new THREE.Vector3(-15.75, 3.44, 34.4),
@@ -705,25 +693,23 @@ function pn1() {
 				points[0].position.y,
 				points[0].position.z
 			),
-			{ duration: 1500 },
-			1
+			{ duration: 1500 }
 		)
 	}
 }
 function pn2() {
-	if (pointChecked === false) {
-		moveAndLookAt(
-			camera,
-			new THREE.Vector3(points[2].position.x, points[2].position.y, 20),
-			new THREE.Vector3(
-				points[2].position.x + 10,
-				points[2].position.y,
-				points[2].position.z
-			),
-			{ duration: 1500 },
-			2
-		)
-	} else {
+	moveAndLookAt(
+		camera,
+		new THREE.Vector3(points[2].position.x, points[2].position.y, 20),
+		new THREE.Vector3(
+			points[2].position.x + 10,
+			points[2].position.y,
+			points[2].position.z
+		),
+		{ duration: 1500 },
+		2
+	)
+	if (numberMemory === 2) {
 		moveAndLookAt(
 			camera,
 			new THREE.Vector3(-15.75, 3.44, 34.4),
@@ -732,25 +718,23 @@ function pn2() {
 				points[0].position.y,
 				points[0].position.z
 			),
-			{ duration: 1500 },
-			2
+			{ duration: 1500 }
 		)
 	}
 }
 function pn3() {
-	if (pointChecked === false) {
-		moveAndLookAt(
-			camera,
-			new THREE.Vector3(points[3].position.x - 10, 2, -30),
-			new THREE.Vector3(
-				points[1].position.x + 5,
-				points[1].position.y + 2,
-				points[1].position.z
-			),
-			{ duration: 1500 },
-			3
-		)
-	} else {
+	moveAndLookAt(
+		camera,
+		new THREE.Vector3(points[3].position.x - 10, 2, -30),
+		new THREE.Vector3(
+			points[1].position.x + 5,
+			points[1].position.y + 2,
+			points[1].position.z
+		),
+		{ duration: 1500 },
+		3
+	)
+	if (numberMemory === 3) {
 		moveAndLookAt(
 			camera,
 			new THREE.Vector3(-15.75, 3.44, 34.4),
@@ -759,25 +743,23 @@ function pn3() {
 				points[0].position.y,
 				points[0].position.z
 			),
-			{ duration: 1500 },
-			3
+			{ duration: 1500 }
 		)
 	}
 }
 function pn4() {
-	if (pointChecked === false) {
-		moveAndLookAt(
-			camera,
-			new THREE.Vector3(points[4].position.x + 20, points[4].position.y, -10),
-			new THREE.Vector3(
-				points[4].position.x - 15,
-				points[4].position.y,
-				points[4].position.z
-			),
-			{ duration: 1500 },
-			4
-		)
-	} else {
+	moveAndLookAt(
+		camera,
+		new THREE.Vector3(points[4].position.x + 20, points[4].position.y, -10),
+		new THREE.Vector3(
+			points[4].position.x - 15,
+			points[4].position.y,
+			points[4].position.z
+		),
+		{ duration: 1500 },
+		4
+	)
+	if (numberMemory === 4) {
 		moveAndLookAt(
 			camera,
 			new THREE.Vector3(-15.75, 3.44, 34.4),
@@ -786,8 +768,7 @@ function pn4() {
 				points[0].position.y,
 				points[0].position.z
 			),
-			{ duration: 1500 },
-			4
+			{ duration: 1500 }
 		)
 	}
 }
