@@ -1,0 +1,587 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+
+*,
+::after,
+::before {
+	margin: 0;
+	padding: 0;
+}
+html,
+body {
+	box-sizing: border-box;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+
+:root {
+	--border-width: 5px;
+	--green-color: #48aabb;
+	--gray-color: #9a999e;
+	--font-size: 1.7rem;
+	--font-weight: 600;
+	--padding: 4px 30px;
+	--width: 260px;
+}
+
+.btnl {
+	width: 74%;
+	max-width: 77%;
+
+	font-size: calc(7px + (24 - 7) * ((100vw - 320px) / (1440 - 320)));
+	font-weight: var(--font-weight);
+	cursor: pointer;
+	font-family: Poppins;
+	color: var(--gray-color);
+	background: transparent;
+	padding: var(--padding);
+	border-radius: 50px;
+	border: var(--border-width) solid var(--gray-color);
+	position: relative;
+}
+
+.btnl .point {
+	display: inline-block;
+	width: calc(var(--border-width) * 2);
+	height: calc(var(--border-width) * 2.6);
+	background: var(--gray-color);
+	border-radius: 50%;
+	position: absolute;
+	top: 50%;
+	left: calc(var(--border-width) * -1.2);
+	transform: translate(-50%, -50%);
+}
+
+.btnl:disabled {
+	cursor: not-allowed;
+	pointer-events: none;
+}
+
+.point {
+	position: absolute;
+	top: 50%;
+	left: 30%;
+	transition: opacity 0.3s;
+}
+
+.point .label {
+	position: absolute;
+	top: -20px;
+	left: -20px;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background: hsl(252, 3%, 61%);
+	color: #ffffff;
+	font-family: Helvetica, Arial, sans-serif;
+	text-align: center;
+	line-height: 40px;
+	font-weight: 100;
+	font-size: 1rem;
+	cursor: help;
+	opacity: 0;
+	transition: opacity 0.3s;
+	z-index: 10;
+}
+
+.inner:hover {
+	border: 5px solid #fff;
+	box-shadow: 0 0 2px rgb(72, 170, 187), 0 0 4px rgb(72, 170, 187),
+		0 0 7px rgb(72, 170, 187), 0 0 12px rgb(72, 170, 187);
+	filter: blur(1px);
+}
+.inner {
+	aspect-ratio: 1/1;
+	background: hsl(252, 3%, 61%);
+	border-radius: 50%;
+	width: 50%;
+	transform: translate(17%, 17%);
+	border: 5px solid rgb(72, 170, 187);
+	-webkit-transition: all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+}
+.point .label::after {
+	content: '';
+	color: rgb(72, 170, 187);
+	width: 100%;
+	height: auto;
+	background-color: rgb(72, 170, 187);
+}
+
+.point .text {
+	position: absolute;
+	top: -60px;
+	left: 300px;
+	width: 200px;
+	padding: 1rem;
+	border-radius: 1rem;
+	background: hsl(252, 3%, 61%);
+	padding: 1rem 2rem 1rem 2rem;
+	color: #ffffff;
+	line-height: 1.3em;
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight: 100;
+	font-size: 1rem;
+	opacity: 0;
+	transition: opacity 0.5s;
+	pointer-events: none;
+}
+
+.point :nth-child(2)::before {
+	content: '';
+	left: -28px;
+	top: 45px;
+	position: absolute;
+	width: 0;
+	height: 0;
+
+	border-top: 18px solid transparent;
+	border-right: 30px solid var(--gray-color);
+	border-bottom: 18px solid transparent;
+
+	/* transform: rotate(90deg) translate(16px, 3px); */
+}
+
+.point:hover .text {
+	/* opacity: 1; */
+}
+svg {
+	position: relative;
+	left: 10%;
+	top: 30%;
+	width: 100%;
+	pointer-events: none;
+}
+
+line {
+	stroke-dasharray: 20;
+	width: 100%;
+	stroke-dashoffset: 1000;
+}
+
+/* does not work in IE, need JS to animate there */
+@keyframes dash {
+	from {
+		stroke-dashoffset: 1000;
+	}
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+
+.point.visible .label {
+	opacity: 1 !important;
+}
+
+/****** regular Button ******/
+.btnl .topBorder {
+	display: inline-block;
+	font-size: 0;
+	height: calc(var(--border-width) * 0.85);
+	position: absolute;
+	background: var(--green-color);
+	width: 50%;
+	top: calc(var(--border-width) * -1);
+	right: 30px;
+	border-radius: 0 5px 5px 0;
+}
+
+.btnl .rightCorner {
+	position: absolute;
+	top: calc(var(--border-width) * -1);
+	right: calc(var(--border-width) * -1);
+	width: 40%;
+	height: 100%;
+	background: transparent;
+	border-radius: 0 50px 50px 0;
+	border-right: var(--border-width) solid var(--green-color);
+	border-top: var(--border-width) solid var(--green-color);
+	border-bottom: var(--border-width) solid var(--green-color);
+}
+
+.wave {
+	overflow: hidden;
+	width: 102%;
+	height: 108%;
+	position: absolute;
+	top: -2px;
+	bottom: -1px;
+	left: -1px;
+	border-radius: 50px;
+}
+
+.btnl .wave::after {
+	z-index: -1;
+	content: '';
+	width: 200%;
+	height: 100%;
+	background: var(--green-color);
+	display: block;
+	position: absolute;
+	left: 130%;
+	top: 0;
+	transform: skew(45deg);
+}
+
+.btnl .wave::before {
+	z-index: -1;
+	content: '';
+	width: 200%;
+	height: 100%;
+	background: var(--gray-color);
+	display: block;
+	position: absolute;
+	left: 110%;
+	top: 0;
+	transform: skew(45deg);
+}
+
+.btnl:hover {
+	color: #fff;
+	border-color: var(--green-color);
+	transition: color ease-in-out 0.5s 0.3s, border-color ease-in-out 0.5s 0.3s,
+		background-color ease-in-out 0.3s 0.6s;
+}
+
+.btnl:hover .point {
+	background-color: var(--green-color);
+	transition: background-color ease-in-out 0.4s 0.4s;
+}
+
+.btnl:hover .wave::after {
+	transition: left ease-in-out 0.8s 0.1s;
+	left: -40%;
+}
+
+.btnl:hover .wave::before {
+	transition: left ease-in-out 0.9s;
+	left: -40%;
+}
+
+.btnl:active {
+	box-shadow: inset 4px 4px 0px 1px rgba(14, 8, 8, 0.4);
+}
+
+/*boton de ar*/
+.btnl.rainbow {
+	background-color: var(--green-color);
+	box-shadow: inset 30px 30px var(--green-color);
+	border: var(--border-width) solid var(--green-color);
+	color: #fff;
+}
+
+.btnl.rainbow .point {
+	background: var(--green-color);
+}
+
+.btnl.rainbow .text {
+	position: relative;
+	z-index: 10;
+	width: 100%;
+	height: 100%;
+}
+
+.btnl.rainbow .layers {
+	overflow: hidden;
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: auto;
+	height: 100%;
+	background: var(--green-color);
+	border-radius: 50px;
+}
+
+.btnl.rainbow .layer {
+	display: inline-block;
+	font-size: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: auto;
+	height: 100%;
+	max-height: 100%;
+	border-radius: 20px 20px 0 0;
+}
+
+.btnl.rainbow:hover {
+	border-color: var(var(--green-color));
+	transition: border-color linear 1s, box-shadow linear 1s;
+	background-color: var(var(--green-color));
+	box-shadow: inset 30px 30px var(var(--green-color));
+}
+
+.btnl.rainbow:hover .layers {
+	background-color: var(--green-color);
+}
+
+.btnl.rainbow:hover .layer {
+	max-height: 0;
+}
+
+.btnl.rainbow:hover .point {
+	background-color: var(--green-color);
+	transition: background-color linear 1s;
+}
+
+.btnl.rainbow:hover .layer-1 {
+	background-color: #0093d0;
+	transition: max-height linear 0.15s 0.4s;
+}
+
+.btnl.rainbow:hover .layer-2 {
+	background-color: #f78f1e;
+	transition: max-height linear 0.09s 0.3s;
+}
+
+.btnl.rainbow:hover .layer-3 {
+	background-color: #e50278;
+	transition: max-height linear 0.12s 0.15s;
+}
+
+.btnl.rainbow:hover .layer-4 {
+	transition: max-height linear 0.144s;
+}
+
+.btnl.rainbow .layers .layer-4 {
+	background-color: var(--green-color);
+}
+
+.rainbow:active .layers {
+	box-shadow: inset 4px 4px 0px 1px rgba(14, 8, 8, 0.4);
+}
+
+.card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 0rem 3rem 0rem 3rem;
+	border-radius: 50px;
+	gap: 5%;
+	height: 50%;
+	cursor: pointer;
+	background-color: #fff;
+	transition: all 0.5s ease-in-out;
+	transform: scale(0);
+}
+.grow {
+	transform: scale(1);
+}
+.shrink {
+	transform: scale(0);
+}
+.modal {
+	visibility: hidden;
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	flex-direction: column;
+	left: 0;
+	top: 0;
+	z-index: 1;
+
+	background-color: hsla(185, 100%, 40%, 0.47);
+}
+#qr {
+	max-width: 70%;
+	max-height: 70%;
+}
+#view_in_your_space {
+	text-align: center;
+	font-family: Poppins;
+	font-size: 1.2rem;
+}
+
+/*inicio de responsive*/
+#container {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+}
+#cont-canvas {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	width: 60%;
+	height: 100%;
+}
+#artifactcanvas {
+	/* min-width: 100% !important;
+  max-width: 100% !important; */
+}
+
+#container-buttongroup {
+	height: 100%;
+	width: 40%;
+	gap: 0.7rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+/*botones de especificaciones*/
+#btn_screen {
+	text-align: center;
+	background-color: #48aabb;
+	color: white;
+}
+#btn_wifi {
+	text-align: center;
+	background-color: #48aabb;
+	color: white;
+}
+#btn_track_pad {
+	text-align: center;
+	background-color: #48aabb;
+	color: white;
+}
+#btn_handle {
+	text-align: center;
+	background-color: #48aabb;
+	color: white;
+}
+#btn_surrounding {
+	text-align: center;
+	background-color: #48aabb;
+	color: white;
+}
+
+#screenlabel {
+	visibility: hidden;
+}
+#track_pad {
+	visibility: hidden;
+}
+#wifi {
+	visibility: hidden;
+}
+#handle {
+	visibility: hidden;
+}
+#surrounding {
+	visibility: hidden;
+}
+
+@keyframes grow {
+	0% {
+		transform: scale(0);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+@keyframes shrink {
+	100% {
+		transform: scale(0);
+	}
+	0% {
+		transform: scale(1);
+	}
+}
+
+@media (max-width: 700px) {
+	#container {
+		flex-direction: column;
+		justify-content: space-between;
+	}
+	#cont-canvas {
+		width: 100%;
+		height: auto;
+	}
+	#container-buttongroup {
+		height: 80%;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: center;
+		gap: 0.7rem;
+	}
+	#btn_ar {
+		margin-bottom: 2rem;
+	}
+	.point {
+		position: absolute;
+		top: 15%;
+		left: 50%;
+		transition: opacity 0.3s;
+	}
+	.btnl {
+		font-size: 1.4rem;
+		width: 17rem;
+	}
+	.modal {
+		justify-content: flex-start;
+	}
+	.card {
+		margin-top: 10%;
+		height: 40%;
+		width: 50%;
+	}
+	.point {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transition: opacity 0.3s;
+	}
+}
+
+@media (orientation: portrait) {
+	#container {
+		flex-direction: column;
+		justify-content: space-between;
+	}
+	#cont-canvas {
+		width: 100%;
+		height: auto;
+	}
+	#container-buttongroup {
+		height: 80%;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: center;
+		gap: 0.7rem;
+	}
+	#btn_ar {
+		margin-bottom: 2rem;
+	}
+	.point {
+		position: absolute;
+		top: 15%;
+		left: 50%;
+		transition: opacity 0.3s;
+	}
+	.btnl {
+		font-size: 1.4rem;
+		width: 17rem;
+	}
+	.modal {
+		justify-content: flex-start;
+	}
+	.card {
+		margin-top: 10%;
+		height: 40%;
+		width: 50%;
+	}
+	.point {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transition: opacity 0.3s;
+	}
+}
