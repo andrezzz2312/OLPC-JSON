@@ -37,7 +37,7 @@ module.exports = {
 					to: 'qr',
 				},
 				{
-					from: 'src/ar',
+					from: 'src/ar.html',
 					to: '',
 				},
 			],
