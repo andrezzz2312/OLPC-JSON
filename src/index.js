@@ -1,75 +1,6 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { TWEEN } from '../node_modules/three/examples/jsm/libs/tween.module.min.js'
-//import {GUI} from '/jsm/libs/dat.gui.module.js'
-//console.log(GUI)
-/*const panel = new GUI({width: 250})
- const point1 = panel.addFolder('point 1')*/
-// const point2 = panel.addFolder('point 2')
-// const point3 = panel.addFolder('point 3')
-// const point4 = panel.addFolder('point 4')
-// const point5 = panel.addFolder('point 5')
-
-// const settings = {
-//   x: 0,
-//   y: 0,
-//   z: 0,
-//   'rotation x': 0,
-//   'rotation y': 0,
-//   'rotation z': 0,
-//   'intensidad ambiental': 0,
-//   'intensidad directional': 0,
-// }
-/*const settings ={ 
-  x:1, 
-  y:1, 
-  z:0.5
-}
- point1.add(settings, 'x', -20, 20).onChange(function (value) {
-   camera.quaternion.x = value
- })
- point1.add(settings, 'y', -20, 20).onChange(function (value) {
-  camera.quaternion.y = value
- })
- point1.add(settings, 'z', -20, 20).onChange(function (value) {
-  camera.quaternion.z = value
- })*/
-// point2.add(settings, 'x', -100, 100).onChange(function (value) {
-//   points[1].position.x = value
-// })
-// point2.add(settings, 'y', -100, 100).onChange(function (value) {
-//   points[1].position.y = value
-// })
-// point2.add(settings, 'z', -100, 100).onChange(function (value) {
-//   points[1].position.z = value
-// })
-// point3.add(settings, 'x', -100, 100).onChange(function (value) {
-//   points[2].position.x = value
-// })
-// point3.add(settings, 'y', -100, 100).onChange(function (value) {
-//   points[2].position.y = value
-// })
-// point3.add(settings, 'z', -100, 100).onChange(function (value) {
-//   points[2].position.z = value
-// })
-// point4.add(settings, 'x', -100, 100).onChange(function (value) {
-//   points[3].position.x = value
-// })
-// point4.add(settings, 'y', -100, 100).onChange(function (value) {
-//   points[3].position.y = value
-// })
-// point4.add(settings, 'z', -100, 100).onChange(function (value) {
-//   points[3].position.z = value
-// })
-// point5.add(settings, 'x', -100, 100).onChange(function (value) {
-//   points[4].position.x = value
-// })
-// point5.add(settings, 'y', -100, 100).onChange(function (value) {
-//   points[4].position.y = value
-// })
-// point5.add(settings, 'z', -100, 100).onChange(function (value) {
-//   points[4].position.z = value
-// })
 
 const scene = new THREE.Scene()
 let box_canvas = document.getElementById('cont-canvas')
@@ -882,7 +813,10 @@ const animate = function () {
 	// controls.update()
 	TWEEN.update()
 	requestAnimationFrame(animate)
-	mixer.update(mixerUpdateDelta)
+	if (mixerUpdateDelta) {
+		mixer.update(mixerUpdateDelta)
+	}
+
 	renderer.render(scene, camera)
 }
 
