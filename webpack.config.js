@@ -25,20 +25,20 @@ module.exports = {
 		new CopyPlugin({
 			patterns: [
 				{
-					from: 'src/css/index.css',
+					from: 'src/css',
+					to: 'css',
+				},
+				{
+					from: 'src/assets',
+					to: 'assets',
+				},
+				{
+					from: 'src/qr',
+					to: 'qr',
+				},
+				{
+					from: 'src/ar',
 					to: '',
-				},
-				{
-					from: 'src/ass',
-					to: 'assets',
-				},
-				{
-					from: 'src/assets',
-					to: 'assets',
-				},
-				{
-					from: 'src/assets',
-					to: 'assets',
 				},
 			],
 		}),
