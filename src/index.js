@@ -123,7 +123,9 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setPixelRatio(window.devicePixelRatio)
 
-renderer.setSize(box_canvas.offsetWidth, box_canvas.offsetHeight)
+window.addEventListener('DOMContentLoaded', function () {
+	renderer.setSize(box_canvas.offsetWidth, box_canvas.offsetHeight)
+})
 
 camera.aspect = box_canvas.offsetWidth / box_canvas.offsetHeight
 camera.updateProjectionMatrix()
