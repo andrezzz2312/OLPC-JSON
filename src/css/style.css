@@ -11,7 +11,6 @@ body {
 	box-sizing: border-box;
 	height: 100%;
 	width: 100%;
-	overflow: hidden;
 }
 
 :root {
@@ -27,7 +26,6 @@ body {
 .btnl {
 	width: 74%;
 	max-width: 77%;
-
 	font-size: calc(7px + (24 - 7) * ((100vw - 320px) / (1440 - 320)));
 	font-weight: var(--font-weight);
 	cursor: pointer;
@@ -58,9 +56,9 @@ body {
 }
 
 .pointSpec {
-	position: absolute;
+	position: relative;
 	top: 50%;
-	left: 30%;
+	left: 36%;
 	transition: opacity 0.3s;
 }
 
@@ -82,8 +80,18 @@ body {
 	opacity: 0;
 	transition: opacity 0.3s;
 	z-index: 10;
+	pointer-events: all;
 }
+.points {
+	width: 80%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
 
+	overflow: hidden;
+	pointer-events: none;
+}
 .inner:hover {
 	border: 5px solid #fff;
 	box-shadow: 0 0 2px rgb(72, 170, 187), 0 0 4px rgb(72, 170, 187),
@@ -100,7 +108,7 @@ body {
 	-webkit-transition: all 0.5s ease-in-out;
 	transition: all 0.5s ease-in-out;
 }
-.point .label::after {
+.pointSpec .label::after {
 	content: '';
 	color: rgb(72, 170, 187);
 	width: 100%;
@@ -108,10 +116,10 @@ body {
 	background-color: rgb(72, 170, 187);
 }
 
-.point .text {
+.pointSpec .text {
 	position: absolute;
-	top: -60px;
-	left: 300px;
+	top: -2.3rem;
+	left: 19.5rem;
 	width: 200px;
 	padding: 1rem;
 	border-radius: 1rem;
@@ -125,12 +133,13 @@ body {
 	opacity: 0;
 	transition: opacity 0.5s;
 	pointer-events: none;
+	z-index: 100;
 }
 
-.point :nth-child(2)::before {
+.pointSpec :nth-child(2)::before {
 	content: '';
 	left: -28px;
-	top: 45px;
+	top: 2.3rem;
 	position: absolute;
 	width: 0;
 	height: 0;
@@ -141,14 +150,11 @@ body {
 
 	/* transform: rotate(90deg) translate(16px, 3px); */
 }
-
-.point:hover .text {
-	/* opacity: 1; */
-}
 svg {
-	position: relative;
-	left: 10%;
-	top: 30%;
+	position: absolute;
+	margin-top: 1rem;
+	left: 3rem;
+	top: 0%;
 	width: 100%;
 	pointer-events: none;
 }
@@ -169,7 +175,7 @@ line {
 	}
 }
 
-.point.visible .label {
+.pointSpec.visible .label {
 	opacity: 1 !important;
 }
 
@@ -410,6 +416,7 @@ line {
 	height: 100%;
 	width: 100%;
 }
+
 #cont-canvas {
 	display: flex;
 	flex-direction: row;
@@ -417,6 +424,7 @@ line {
 	width: 60%;
 	height: 100%;
 }
+
 #artifactcanvas {
 	/* min-width: 100% !important;
   max-width: 100% !important; */
@@ -497,28 +505,11 @@ line {
 		flex-direction: column;
 		justify-content: space-between;
 	}
-	#cont-canvas {
-		width: 100%;
-		height: auto;
-	}
-	#container-buttongroup {
-		height: 80%;
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: center;
-		gap: 0.7rem;
-	}
+
 	#btn_ar {
 		margin-bottom: 2rem;
 	}
-	.point {
-		position: absolute;
-		top: 15%;
-		left: 50%;
-		transition: opacity 0.3s;
-	}
+
 	.btnl {
 		font-size: 1.4rem;
 		width: 17rem;
@@ -530,12 +521,6 @@ line {
 		margin-top: 10%;
 		height: 40%;
 		width: 50%;
-	}
-	.point {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transition: opacity 0.3s;
 	}
 }
 
@@ -546,10 +531,41 @@ line {
 	}
 	#cont-canvas {
 		width: 100%;
-		height: auto;
+		height: 35%;
+		margin-bottom: 5%;
 	}
+	.pointSpec {
+		position: absolute;
+
+		top: 40%;
+		left: 45%;
+		width: 100%;
+		height: 100%;
+		transition: opacity 0.3s;
+		/* overflow: hidden; */
+		pointer-events: none;
+	}
+	.points {
+		width: 100%;
+		height: 35%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		overflow: hidden;
+		pointer-events: none;
+	}
+	svg {
+		position: relative;
+		margin-top: 1rem;
+		left: 3rem;
+		top: 0;
+		width: 50%;
+
+		pointer-events: none;
+	}
+
 	#container-buttongroup {
-		height: 80%;
+		height: 60%;
 		width: 100%;
 		display: flex;
 		flex-direction: column;
@@ -560,12 +576,44 @@ line {
 	#btn_ar {
 		margin-bottom: 2rem;
 	}
-	.point {
-		position: absolute;
-		top: 15%;
-		left: 50%;
-		transition: opacity 0.3s;
+	.pointSpec {
+		z-index: 10;
 	}
+	.pointSpec .text {
+		position: absolute;
+		top: -1rem;
+		left: 9rem;
+
+		width: 100px;
+		border-radius: 1rem;
+		background: var(--gray-color);
+		padding: 0.5rem 0.8rem 0.5rem 0.8rem;
+		color: #ffffff;
+		line-height: 1.3em;
+		font-family: Helvetica, Arial, sans-serif;
+		font-weight: 100;
+		font-size: 0.7rem;
+		opacity: 0;
+		transition: opacity 0.5s;
+		pointer-events: none;
+		z-index: 100;
+	}
+
+	.pointSpec :nth-child(2)::before {
+		content: '';
+		left: -18px;
+		top: 22px;
+		position: absolute;
+		width: 0;
+		height: 0;
+
+		border-top: 12px solid transparent;
+		border-right: 20px solid var(--gray-color);
+		border-bottom: 12px solid transparent;
+
+		/* transform: rotate(90deg) translate(16px, 3px); */
+	}
+
 	.btnl {
 		font-size: 1.4rem;
 		width: 17rem;
@@ -577,11 +625,5 @@ line {
 		margin-top: 10%;
 		height: 40%;
 		width: 50%;
-	}
-	.point {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transition: opacity 0.3s;
 	}
 }

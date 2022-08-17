@@ -422,19 +422,18 @@ point_1.addEventListener('click', pn1)
 point_2.addEventListener('click', pn2)
 point_3.addEventListener('click', pn3)
 point_4.addEventListener('click', pn4)
-let pointChecked = false
-let point0Checked = false
-let point1Checked = false
-let point2Checked = false
-let point3Checked = false
-let point4Checked = false
+
 //mostrar los 5 botones de las specs
 let mostrar_especificaciones = false
-const labelpoint = document.querySelectorAll('.point .label')
-const point = document.querySelectorAll('.point')
+const labelpoint = document.querySelectorAll('.pointSpec .label')
+const point = document.querySelectorAll('.pointSpec')
+const pointContainer = document.querySelector('.points')
 const visible = document.querySelectorAll('.visible')
-const linea = `<svg id="svg1">
+const linea = `<svg viewBox="0 0 ${box_canvas.offsetWidth + 200} ${
+	box_canvas.offsetHeight - 80
+}" xmlns="http://www.w3.org/2000/svg" >
 	<line
+
 		id="line1"
 		x1='2.5'
 		y1="2.5"
@@ -466,7 +465,11 @@ controls.update()
 function moveAndLookAt(camera, dstpos, dstlookat, options, number) {
 	options || (options = { duration: 300 })
 	console.log(number)
-	const svg = document.querySelector('.point svg')
+	point.forEach((e) => {
+		e.style.zIndex = '1'
+	})
+
+	const svg = document.querySelector('.pointSpec svg')
 	if (svg) {
 		svg.remove()
 	}
@@ -509,6 +512,7 @@ function moveAndLookAt(camera, dstpos, dstlookat, options, number) {
 			})
 			.onComplete(() => {
 				if (number !== undefined) {
+					point[number].style.zIndex = '100'
 					numberMemory = number
 					point[number].innerHTML += linea
 				} else {
@@ -517,9 +521,14 @@ function moveAndLookAt(camera, dstpos, dstlookat, options, number) {
 				}
 				setTimeout(() => {
 					const text = document.querySelectorAll('.text')
+
 					if (number !== undefined) {
 						text[number].style.opacity = '1'
 					}
+					// a
+					// const clonedPoint = point[number].cloneNode(true)
+					// point[number].remove()
+					// pointContainer.appendChild(clonedPoint)
 				}, 2000)
 
 				controls.target = new THREE.Vector3(
@@ -582,7 +591,7 @@ function pn1() {
 		new THREE.Vector3(points[1].position.x, 8, 18),
 		new THREE.Vector3(
 			points[1].position.x + 10,
-			points[1].position.y,
+			points[1].position.y - 5,
 			points[1].position.z
 		),
 		{ duration: 1500 },
@@ -606,7 +615,7 @@ function pn2() {
 		camera,
 		new THREE.Vector3(points[2].position.x, points[2].position.y, 20),
 		new THREE.Vector3(
-			points[2].position.x + 10,
+			points[2].position.x + 15,
 			points[2].position.y,
 			points[2].position.z
 		),
@@ -631,7 +640,7 @@ function pn3() {
 		camera,
 		new THREE.Vector3(points[3].position.x - 10, 2, -30),
 		new THREE.Vector3(
-			points[1].position.x + 5,
+			points[1].position.x,
 			points[1].position.y + 2,
 			points[1].position.z
 		),
@@ -656,7 +665,7 @@ function pn4() {
 		camera,
 		new THREE.Vector3(points[4].position.x + 20, points[4].position.y, -10),
 		new THREE.Vector3(
-			points[4].position.x - 15,
+			points[4].position.x - 40,
 			points[4].position.y,
 			points[4].position.z
 		),
@@ -815,9 +824,8 @@ const animate = function () {
 	// controls.update()
 	TWEEN.update()
 	requestAnimationFrame(animate)
-	if (mixerUpdateDelta) {
-		mixer.update(mixerUpdateDelta)
-	}
+
+	mixer.update(mixerUpdateDelta)
 
 	renderer.render(scene, camera)
 }
