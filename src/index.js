@@ -66,7 +66,8 @@ loadingManager.onLoad = function () {
 	// progressBarContainer.style.display = ' none'
 	setTimeout(() => {
 		progressBarContainer.classList.add('vanish')
-	}, 3000)
+		progressBarContainer.style.pointerEvents = 'none'
+	}, 2000)
 }
 buliano = false
 /**
