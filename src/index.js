@@ -47,28 +47,27 @@ let obj_measure, load_measure
  */
 const loadingBarElement = document.querySelector('.loading-bar')
 
-let sceneReady = false
-const loadingManager = new THREE.LoadingManager(
-	// Loaded
-	() => {
-		// Wait a little
-		window.setTimeout(() => {
-			// Animate overlay
-			// gsap.to(overlayMaterial.uniforms.uAlpha, {
-			//   duration: 3,
-			//   value: 0,
-			//   delay: 1,
-			// })
-			// Update loadingBarElement
-			// loadingBarElement.classList.add('ended')
-			// loadingBarElement.style.transform = ''
-		}, 500)
+const progressBar = document.getElementById('progress-bar')
 
-		window.setTimeout(() => {
-			sceneReady = true
-		}, 2000)
-	}
-)
+let sceneReady = false
+const loadingManager = new THREE.LoadingManager()
+// Loaded
+// () => {
+
+// 	window.setTimeout(() => {
+// 		sceneReady = true
+// 	}, 2000)
+// }
+loadingManager.onProgress = function (url, loaded, total) {
+	progressBar.value = (loaded / total) * 100
+}
+const progressBarContainer = document.querySelector('.progress-bar-container')
+loadingManager.onLoad = function () {
+	// progressBarContainer.style.display = ' none'
+	setTimeout(() => {
+		progressBarContainer.classList.add('vanish')
+	}, 3000)
+}
 buliano = false
 /**
  * PERSPECTIVE CAMERA
@@ -707,11 +706,15 @@ btntablet.addEventListener('click', modetablet)
 btnspecs.addEventListener('click', mostrar_opciones_especs)
 botonar.addEventListener('click', ar)
 //responsive
-window.addEventListener('resize', onWindowResize, false)
+window.addEventListener('resize', onWindowResize)
+
 function onWindowResize() {
-	camera.aspect = box_canvas.offsetWidth / box_canvas.offsetHeight
+	camera.aspect = box_canvas.clientWidth / box_canvas.clientHeight
+
 	camera.updateProjectionMatrix()
-	renderer.setSize(box_canvas.offsetWidth, box_canvas.offsetHeight)
+	renderer.setSize(box_canvas.clientWidth, box_canvas.clientHeight)
+	console.log(box_canvas.offsetWidth)
+	console.log(box_canvas.offsetHeight)
 	if (mobileD.matches) {
 		console.log('mobile')
 		// renderer.setSize(window.innerWidth, (window.innerHeight * 40) / 100)
