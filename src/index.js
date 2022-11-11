@@ -45,19 +45,12 @@ let obj_measure, load_measure
 /*
  * Loaders
  */
-const loadingBarElement = document.querySelector('.loading-bar')
+let sceneReady = false
 
 const progressBar = document.getElementById('progress-bar')
 
-let sceneReady = false
 const loadingManager = new THREE.LoadingManager()
-// Loaded
-// () => {
 
-// 	window.setTimeout(() => {
-// 		sceneReady = true
-// 	}, 2000)
-// }
 loadingManager.onProgress = function (url, loaded, total) {
 	progressBar.value = (loaded / total) * 100
 }
@@ -67,6 +60,7 @@ loadingManager.onLoad = function () {
 	setTimeout(() => {
 		progressBarContainer.classList.add('vanish')
 		progressBarContainer.style.pointerEvents = 'none'
+		sceneReady = true
 	}, 2000)
 }
 buliano = false
@@ -129,30 +123,8 @@ window.addEventListener('DOMContentLoaded', function () {
 
 camera.aspect = box_canvas.offsetWidth / box_canvas.offsetHeight
 camera.updateProjectionMatrix()
-//renderer.toneMapping = THREE.ACESFilmicToneMapping
-//renderer.toneMappingExposure = 0.4
-//renderer.outputEncoding = THREE.sRGBEncoding
 
 clock = new THREE.Clock()
-
-//hdri
-/*let pmremGenerator = new THREE.PMREMGenerator(renderer)
-pmremGenerator.compileEquirectangularShader()*/
-//hdri parte 2
-/*let efecto = new RGBELoader()
-efecto.setDataType(THREE.UnsignedByteType)
-efecto.load(
-  'imagenes/hdri/christmas_photo_studio_04_1k_LIGHT.hdr',
-  function (texture) {
-    let envMap = pmremGenerator.fromEquirectangular(texture).texture
-    scene.environment = envMap
-    texture.dispose()
-    pmremGenerator.dispose()
-  }
-)*/
-//fin del hdri
-//const roughnessMipmapper = new RoughnessMipmapper(renderer)
-//const objeto = new GLTFLoader(loadingManager)
 
 const objeto_v = new THREE.ObjectLoader(loadingManager)
 objeto_v.load('assets/objetos/scene.json', function (gltf) {
@@ -162,7 +134,6 @@ objeto_v.load('assets/objetos/scene.json', function (gltf) {
 	laptopScene.rotation.set(0, 180.2, 0)
 	scene.add(laptopScene)
 	animations = laptopScene.children[6].animations
-	//console.log(animations)
 	mixer = new THREE.AnimationMixer(laptopScene)
 	tablet = mixer.clipAction(animations[0])
 	monitor_180turn_a = mixer.clipAction(animations[0])
