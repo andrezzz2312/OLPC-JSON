@@ -431,7 +431,6 @@ let numberMemory = 100
 //*******orbit control******
 const controls = new OrbitControls(camera, canvas)
 controls.update()
-//controls.enableDamping = true
 
 function moveAndLookAt(camera, dstpos, dstlookat, options, number) {
 	options || (options = { duration: 300 })
@@ -726,6 +725,18 @@ function mostrar_opciones_especs() {
 		btncerrar.style.opacity = 0.5
 		mostrar_especificaciones = true
 	} else {
+		controls.enabled = true
+
+		moveAndLookAt(
+			camera,
+			new THREE.Vector3(-15.75, 3.44, 34.4),
+			new THREE.Vector3(
+				points[0].position.x,
+				points[0].position.y,
+				points[0].position.z
+			),
+			{ duration: 1500 }
+		)
 		obj_measure.visible = false
 		mostrar_especificaciones = false
 		btntablet.disabled = false
